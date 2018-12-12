@@ -32,21 +32,24 @@ export class Server {
   readonly getPort = (): number => parseInt(process.env.PORT, 10) || 3000;
 
   readonly setRoutes = (): void => {
-    this.app.get('/', this.getHomepage);
+    this.app.get('/', (req: express.Request, res: express.Response) => {
+      console.log(req);
+      return res.json({ hello: 'world' });
+    });
   }
 
-  private async getHomepage(
-    req: express.Request,
-    res: express.Response,
-  ): Promise<express.Response> {
-    console.log(req);
-    try {
-      const thing = await Promise.resolve({ one: 'two' });
-      return res.json({ ...thing, hello: 'world' });
-    } catch (e) {
-      return res.json({ error: e.message });
-    }
-  }
+  // private async getHomepage(
+  //   req: express.Request,
+  //   res: express.Response,
+  // ): Promise<express.Response> {
+  //   console.log(req);
+  //   try {
+  //     const thing = await Promise.resolve({ one: 'two' });
+
+  //   } catch (e) {
+  //     return res.json({ error: e.message });
+  //   }
+  // }
 }
 
 export default new Server().app;
