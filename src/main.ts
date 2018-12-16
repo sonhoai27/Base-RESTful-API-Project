@@ -1,55 +1,40 @@
 import * as express from 'express';
+import bodyParser from 'body-parser';
 
-declare var __DEV__: boolean;
+import { dbConnect } from './configs/db';
+import statuses from './statuses/statuses.routes';
+import categories from './categories/categories.routes';
+import questions from './questions/questions.routes';
 
-export class Server {
-  readonly app: express.Express;
-  readonly port: number;
+const app = express();
 
-  constructor() {
-    this.app = express();
-    this.port = this.getPort();
-    this.setRoutes();
-    this.start();
-  }
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
-  readonly start = (): void => {
-    this.app.listen(this.port, this.onListen);
-  }
+app.all('*', (
+    // tslint:disable-next-line
+    _req: express.Request,
+    res:express.Response,
+    next:express.NextFunction,
+  ) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header(
+      'Access-Control-Allow-Headers',
+      'Origin, X-Requested-With, Content-Type, Accept, Authorization',
+  );
+  next();
+});
 
-  readonly onListen = (err: any): void => {
-    if (err) {
-      console.error(err);
-      return;
-    }
-    if (__DEV__) {
-      console.log('> in development');
-    }
+dbConnect();
 
-    console.log(`> listening on port ${this.port}`);
-  }
+const getPort = (): number => parseInt(process.env.PORT, 10) || 3000;
 
-  readonly getPort = (): number => parseInt(process.env.PORT, 10) || 3000;
+app.use('/api/statuses', statuses);
+app.use('/api/categories', categories);
+app.use('/api/questions', questions);
 
-  readonly setRoutes = (): void => {
-    this.app.get('/', (req: express.Request, res: express.Response) => {
-      console.log(req);
-      return res.json({ hello: 'world' });
-    });
-  }
+app.listen(getPort(), () => {
+  console.log(`Server started with port: http://localhost:${getPort()}`);
+});
 
-  // private async getHomepage(
-  //   req: express.Request,
-  //   res: express.Response,
-  // ): Promise<express.Response> {
-  //   console.log(req);
-  //   try {
-  //     const thing = await Promise.resolve({ one: 'two' });
-
-  //   } catch (e) {
-  //     return res.json({ error: e.message });
-  //   }
-  // }
-}
-
-export default new Server().app;
+export default app;

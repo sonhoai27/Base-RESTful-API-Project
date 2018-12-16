@@ -15,7 +15,7 @@
       "sourceMap": true,
       "target": "esnext",
       "paths": {
-        "@app/*": ["./src"]
+        "@app/*": ["./*"]
       }
     },
     "exclude": [

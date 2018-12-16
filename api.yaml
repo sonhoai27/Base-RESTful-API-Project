@@ -1,0 +1,541 @@
+openapi: 3.0.0
+info:
+  title: FAQs API
+  version: 0.1.0
+tags:
+  - name: statuses
+  - name: categories
+  - name: questions
+servers:
+  - url: http://localhost:3000/api/
+paths:
+  /statuses:
+    get:
+      tags:
+        - statuses
+      summary: Returns a list of status.
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+          required: true
+          description: Position of page to get
+        - in: header
+          name: Pagination
+          schema:
+            type: string
+            format: string
+          description: Send pagination header to get data from <b>'PAGE 2'</b>, format <b>TOTAL | LIMIT | SKIP</b>.
+      responses:
+        '200':
+          description: A single user.
+          content:
+            application/json:
+              schema:
+                items:
+                  oneOf:
+                    - $ref: '#/components/schemas/Status'
+                    - $ref: '#/components/schemas/Status'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      tags:
+        - statuses
+      summary: Add a new status
+      requestBody:
+        description: Object of status to add
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Status'
+      responses:
+        '200':
+          description: Return a new status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  '/statuses/{id}':
+    get:
+      tags:
+        - statuses
+      summary: Return a status by id.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID of the status to get
+      responses:
+        '200':
+          description: A single status.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      tags:
+        - statuses
+      summary: Update a status
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID of the status to update
+      requestBody:
+        description: Object of status to update
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Status'
+      responses:
+        '200':
+          description: Return a status after update
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      tags:
+        - statuses
+      summary: Delete a status
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID of the status to delete
+      responses:
+        '200':
+          description: Return a status after delete
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /categories:
+    get:
+      tags:
+        - categories
+      summary: Returns a list of category.
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+          required: true
+          description: Position of page to get
+        - in: header
+          name: Pagination
+          schema:
+            type: string
+            format: string
+          description: Send pagination header to get data from <b>'PAGE 2'</b>, format <b>TOTAL | LIMIT | SKIP</b>.
+      responses:
+        '200':
+          description: All categories.
+          content:
+            application/json:
+              schema:
+                items:
+                  oneOf:
+                    - $ref: '#/components/schemas/Category'
+                    - $ref: '#/components/schemas/Category'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      tags:
+        - categories
+      summary: Add a new category
+      requestBody:
+        description: Object of category to add
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Category'
+      responses:
+        '200':
+          description: Return a new category
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  '/categories/{id}':
+    get:
+      tags:
+        - categories
+      summary: Return a category by id.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID of the category to get
+      responses:
+        '200':
+          description: A single category
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      tags:
+        - categories
+      summary: Update a category
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID of the status to update
+      requestBody:
+        description: Object of status to update
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Status'
+      responses:
+        '200':
+          description: Return a status after update
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      tags:
+        - categories
+      summary: Delete a category
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID of the status to delete
+      responses:
+        '200':
+          description: Return a status after delete
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /questions:
+    get:
+      tags:
+        - questions
+      summary: Returns a list of question.
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+          required: true
+          description: Position of page to get
+        - in: header
+          name: Pagination
+          schema:
+            type: string
+            format: string
+          description: Send pagination header to get data from <b>'PAGE 2'</b>, format <b>TOTAL | LIMIT | SKIP</b>.
+      responses:
+        '200':
+          description: All questions.
+          content:
+            application/json:
+              schema:
+                items:
+                  oneOf:
+                    - $ref: '#/components/schemas/Question'
+                    - $ref: '#/components/schemas/Question'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      tags:
+        - questions
+      summary: Add a new question
+      requestBody:
+        description: Object of question to add
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Question'
+      responses:
+        '200':
+          description: Return a new category
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Question'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  '/questions/{id}':
+    get:
+      tags:
+        - questions
+      summary: Return a faq by id.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID of the question to get
+      responses:
+        '200':
+          description: A single question
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Question'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      tags:
+        - questions
+      summary: Update a question
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID of the question to update
+      requestBody:
+        description: Object of question to update
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Question'
+      responses:
+        '200':
+          description: Return a question after update
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Question'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      tags:
+        - questions
+      summary: Delete a question
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID of the question to delete
+      responses:
+        '200':
+          description: Return a question after delete
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Question'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Status:
+      type: object
+      required:
+        - name
+      properties:
+        id:
+          type: string
+          format: string
+        name:
+          type: string
+          format: string
+        createdBy:
+          type: string
+          format: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedBy:
+          type: string
+          format: string
+        updateAt:
+          type: string
+          format: date-time
+        deletedBy:
+          type: string
+          format: string
+        deletedAt:
+          type: string
+          format: date-time
+      xml:
+        name: Status
+    Category:
+      type: object
+      required:
+        - name
+        - statusId
+      properties:
+        id:
+          type: string
+          format: string
+        name:
+          type: string
+          format: string
+        status:
+          type: string
+          format: string
+        createdBy:
+          type: string
+          format: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedBy:
+          type: string
+          format: string
+        updateAt:
+          type: string
+          format: date-time
+        deletedBy:
+          type: string
+          format: string
+        deletedAt:
+          type: string
+          format: date-time
+      xml:
+        name: Category
+    Question:
+      type: object
+      required:
+        - name
+        - statusId
+        - content
+      properties:
+        id:
+          type: string
+          format: string
+        name:
+          type: string
+          format: string
+        status:
+          type: string
+          format: string
+        category:
+          type: string
+          format: string
+        content:
+          type: string
+          format: string
+        createdBy:
+          type: string
+          format: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedBy:
+          type: string
+          format: string
+        updateAt:
+          type: string
+          format: date-time
+        deletedBy:
+          type: string
+          format: string
+        deletedAt:
+          type: string
+          format: date-time
+      xml:
+        name: Category
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          format: string

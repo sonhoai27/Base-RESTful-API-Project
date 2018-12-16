@@ -1,6 +1,6 @@
 {
     "presets": [],
     "plugins": [
-        ["module-resolver", { "alias": { "@app": "./src" } }]
+        ["module-resolver", { "alias": { "@app": "./" } }]
     ]
 }
