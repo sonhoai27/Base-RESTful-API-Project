@@ -3,17 +3,6 @@ import * as express from 'express';
 import Categories, { categorySchema } from './categories.schema';
 import mongoose from 'mongoose';
 
-export const pagination = (
-  req: any,
-  // tslint:disable-next-line:variable-name
-  _res: express.Response,
-  next: express.NextFunction,
-  ) => {
-  // tslint:disable-next-line:no-object-mutation
-  req.skip = req.query.page ? req.query.page : 0;
-  next();
-};
-
 export const add = (
   req: express.Request,
   res: express.Response,

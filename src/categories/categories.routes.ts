@@ -1,9 +1,10 @@
+import { filter, pagination } from '@app/utils/route';
 import * as express from 'express';
 import controller from './categories.controller';
-import { pagination, add, detailById } from './categories.middleware';
+import { add, detailById } from './categories.middleware';
 const router = express.Router();
 
-router.get('/', pagination, controller.getCategories);
+router.get('/', filter, pagination, controller.getCategories);
 router.post('/', add, controller.createCategory);
 
 router.param('id', detailById);

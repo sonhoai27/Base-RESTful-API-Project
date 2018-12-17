@@ -1,3 +1,4 @@
+import { filterByStatus, makeSearch, makeSort } from './../utils/route';
 import Questions from './questions.schema';
 import * as express from 'express';
 import mongoose from 'mongoose';
@@ -91,39 +92,10 @@ const deleteQuestion = (req: any, res: express.Response) => {
   });
 };
 
-const makeSearch = (req: any) => {
-  if (req.q) {
-    return {
-      name: new RegExp(`${req.q}`, 'i'),
-    };
-  }
-};
-
-const filterByStatus = (req: any) => {
-  if (req.status) {
-    return {
-      status: req.status,
-    };
-  }
-};
-
 const filterByCategory = (req: any) => {
   if (req.category) {
     return {
       category: req.category,
-    };
-  }
-};
-const makeSort = (req: any) => {
-  if (req.sort) {
-    const tempSort = req.sort.split('|');
-    if (tempSort[0] === 'name') {
-      return {
-        name: tempSort[1],
-      };
-    }
-    return {
-      createdAt: tempSort[1],
     };
   }
 };

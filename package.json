@@ -3,7 +3,7 @@
     "version": "0.0.1",
     "description": "api for admin page",
     "main": "index.js",
-    "author": "son.sportymind",
+    "author": "son",
     "license": "MIT",
     "private": true,
     "dependencies": {

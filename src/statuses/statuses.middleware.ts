@@ -1,16 +1,6 @@
 import Joi from 'joi';
 import * as express from 'express';
 import Statuses, { statusSchema } from './statuses.schema';
-export const pagination = (
-  req: any,
-  // tslint:disable-next-line:variable-name
-  _res: express.Response,
-  next: express.NextFunction,
-  ) => {
-  // tslint:disable-next-line:no-object-mutation
-  req.skip = req.query.page ? req.query.page : 0;
-  next();
-};
 
 export const add = (
   req: express.Request,

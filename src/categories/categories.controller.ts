@@ -1,14 +1,23 @@
+import { makeSearch, filterByStatus, makeSort } from './../utils/route';
 import Categories from './categories.schema';
 import * as express from 'express';
 import mongoose from 'mongoose';
 
 const getCategories = async (req: any, res: express.Response) => {
-  await Categories.find({}, (err, result) => {
+  await Categories.find({
+    ...makeSearch(req),
+    ...filterByStatus(req),
+  // tslint:disable-next-line:align
+  }, (err, result) => {
     if (err) {
       return res.status(400).json(err);
     // tslint:disable-next-line:no-else-after-return
     } else {
-      Categories.countDocuments({}, (err, c) => {
+      Categories.countDocuments({
+        ...makeSearch(req),
+        ...filterByStatus(req),
+      // tslint:disable-next-line:align
+      }, (err, c) => {
         if (err) {
           return res.status(400).json(err);
         }
@@ -16,7 +25,9 @@ const getCategories = async (req: any, res: express.Response) => {
         return res.json(result);
       });
     }
-  }).skip(Number(req.skip)).limit(10);
+  }).skip(Number(req.skip)).limit(10).sort({
+    ...makeSort(req),
+  });
 };
 
 const categoryById = (req: any, res: express.Response) => {

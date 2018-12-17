@@ -1,13 +1,20 @@
+import { makeSort, makeSearch } from './../utils/route';
 import Statuses from './statuses.schema';
 import * as express from 'express';
 
 const getStatuses = (req: any, res: express.Response) => {
-  Statuses.find({}, (err, result) => {
+  Statuses.find({
+    ...makeSearch(req),
+  // tslint:disable-next-line:align
+  }, (err, result) => {
     if (err) {
       return res.status(400).json(err);
     // tslint:disable-next-line:no-else-after-return
     } else {
-      Statuses.count({}, (err, c) => {
+      Statuses.countDocuments({
+        ...makeSearch(req),
+      // tslint:disable-next-line:align
+      }, (err, c) => {
         if (err) {
           return res.status(400).json(err);
         }
@@ -15,7 +22,9 @@ const getStatuses = (req: any, res: express.Response) => {
         return res.json(result);
       });
     }
-  }).skip(Number(req.skip)).limit(10);
+  }).skip(Number(req.skip)).limit(10).sort({
+    ...makeSort(req),
+  });
 };
 
 const statusById = (req: any, res: express.Response) => {

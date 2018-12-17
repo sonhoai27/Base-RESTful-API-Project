@@ -1,9 +1,10 @@
 import * as express from 'express';
 import controller from './statuses.controller';
-import { add, detailById, pagination } from './statuses.middleware';
+import { add, detailById } from './statuses.middleware';
+import { filter, pagination } from '../utils/route';
 const router = express.Router();
 
-router.get('/', pagination, controller.getStatuses);
+router.get('/', filter, pagination, controller.getStatuses);
 router.post('/', add, controller.createStatus);
 
 router.param('id', detailById);
